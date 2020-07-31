@@ -6,7 +6,7 @@
 
 ## 思路
 
-![欧几里得算法图解](D:\Markdown\1.png)
+![欧几里得算法图解](http://pic2.1010pic.com/pic3/upload/images/201012/12/d6cfceb3.png)
 
 ## 代码
 
