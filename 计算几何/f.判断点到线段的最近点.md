@@ -24,4 +24,39 @@
 - 然后再判断垂足是否在线段上，如果在线段上则返回垂足；如果不在则计算两端点 到垂足的距离，选择距离垂足较近的端点返回。
 
 ## 代码
+```C
+ List<Integer> edgeList=road.getEdgeList();
+float k,x,y,x1,y1,x2,y2,px,py;
+for(int edgeId:edgeList){
+Edge edge=TopologyMap.edgeMap.get(edgeId);
+Node fromNode=TopologyMap.nodeMap.get(edge.getFromNodeId());
+Node toNode=TopologyMap.nodeMap.get(edge.getToNodeId());
+x1=fromNode.getLat();y1=fromNode.getLong();
+x2=toNode.getLat();y2=toNode.getLong();
+px=GPoint.getLat();py=GPoint.getLong();
+//求垂足
+if(x1==x2){
+x=x1;
+y=GPoint.getLong();
+}else if(y1==y2){
+y=y1;
+x=GPoint.getLat();
+}else{   //存在斜率k
+k=(y2-y1)/(x2-x1);
+x= (k*k*x1 + k*(py-y1) + px)/(k*k+1) ;
+y=k*(x-x1) + y1; 
+}
+//判断垂足是否在edge上
+float edgeLength=(float)Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+float dist1=(float)Math.sqrt((x-x1)*(x-x1)+(y-y1)*(y-y1));
+float dist2=(float)Math.sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+float compare=dist1+dist2;
+if(compare-edgeLength>0.0004){//不在线段上，则取最近点为端点
+ if(dist1<dist2){
+ x=x1;y=y1;
+ }else{
+ x=x2;y=y2;
+ }
+}
+Node pedal=new Node(x,y,edgeId,roadId);
 
